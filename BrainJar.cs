@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -15,19 +15,27 @@ namespace Brains
 			brain = GameObject.Instantiate(brain) as Brain;
 			brain.CreateRuntimeInstances();
 
+			GetSensors();
 			GetNodeBehaviours();
 		}
 
 		void Start()
 		{
-			ActivateNode(brain.defaultNode);
+			Reset();
 
 			isInitialized = true;
 		}
 
-		void OnEnable()
+		void GetSensors()
 		{
-			if(!isInitialized) return;
+			sensors = new List<Sensor>();
+			sensors.AddRange(transform.GetComponentsInChildren<Sensor>(true) as Sensor[]);
+		}
+
+		public void Reset()
+		{
+			for(int i = 0; i < sensors.Count; i++)
+				sensors[i].Reset();
 
 			ActivateNode(brain.defaultNode);
 		}
@@ -155,7 +163,7 @@ namespace Brains
 
 		void ActivateNode(Node node)
 		{
-			//Debug.Log("Activating: " + brain.name + "/" + node.name);
+			Debug.Log("Activating: " + brain.name + "/" + node.name);
 
 			if(activeNode != null)
 			{
@@ -178,8 +186,8 @@ namespace Brains
 		public Brain brain;
 		public string current { get{ return activeNode != null ? activeNode.name : ""; } }
 
+		private List<Sensor> sensors;
 		private Node activeNode = null;
-
 		private bool isInitialized = false;
 
 	}
