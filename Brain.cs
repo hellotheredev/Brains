@@ -137,6 +137,18 @@ namespace Brains
 
 		  ///////////////////
 		 /// CONNECTIONS ///
+
+		public bool HasNode(string name)
+		{
+			for(int i = 0; i < nodes.Count; i++)
+			{
+				Node node = nodes[i];
+
+				if(string.Compare(node.name, name) == 0) return true;
+			}
+
+			return false;
+		}
 		///////////////////
 
 		public Connection CreateConnection(Node from, Node to)
